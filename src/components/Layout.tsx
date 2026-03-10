@@ -50,22 +50,12 @@ export const Header = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-primary-blue flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform">
-            P
-          </div>
-          <div className="flex flex-col">
-            <span
-              className={`font-bold text-lg leading-none ${isScrolled ? "text-slate-900" : "text-white"}`}
-            >
-              PROLINK
-            </span>
-            <span
-              className={`text-[10px] tracking-widest uppercase opacity-70 ${isScrolled ? "text-slate-900" : "text-white"}`}
-            >
-              Import & Export
-            </span>
-          </div>
+        <Link to="/" className="flex items-center group">
+          <img
+            src="/pro.png"
+            alt="Prolink Logo"
+            className="h-12 w-auto group-hover:scale-110 transition-transform"
+          />
         </Link>
 
         {/* Desktop Nav */}
