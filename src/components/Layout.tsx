@@ -30,17 +30,11 @@ export const Header = ({ currentPage, setPage }: { currentPage: Page, setPage: (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <div 
-          className="flex items-center gap-2 cursor-pointer group"
+        <div
+          className="cursor-pointer group"
           onClick={() => setPage('home')}
         >
-          <div className="w-10 h-10 bg-primary-blue flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform">
-            P
-          </div>
-          <div className="flex flex-col">
-            <span className={`font-bold text-lg leading-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}>PROLINK</span>
-            <span className={`text-[10px] tracking-widest uppercase opacity-70 ${isScrolled ? 'text-slate-900' : 'text-white'}`}>Import & Export</span>
-          </div>
+          <img src="/prolinklogo.png" alt="Prolink" className="h-12 w-auto group-hover:scale-105 transition-transform" />
         </div>
 
         {/* Desktop Nav */}
@@ -131,12 +125,8 @@ export const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
     <footer className="bg-light-grey text-slate-900 pt-24 pb-12 border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
         <div className="col-span-1 md:col-span-1">
-          <div className="flex items-center gap-2 mb-8">
-            <div className="w-12 h-12 bg-primary-blue flex items-center justify-center text-white font-bold text-2xl rounded-full">P</div>
-            <div className="flex flex-col">
-              <span className="font-bold text-xl leading-none tracking-tight">PROLINK</span>
-              <span className="text-[10px] tracking-widest uppercase opacity-60">Import & Export</span>
-            </div>
+          <div className="mb-8">
+            <img src="/prolinklogo.png" alt="Prolink" className="h-12 w-auto" />
           </div>
           <p className="text-slate-500 text-sm leading-relaxed mb-8">
             A leading index model enterprise founded in 2004, specializing in high-end caps, hats, and global trading solutions.
