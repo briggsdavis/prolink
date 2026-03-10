@@ -1,88 +1,136 @@
-import React, { useState } from "react"
-import { motion, AnimatePresence } from "motion/react"
 import {
   Search,
   Filter,
   ChevronRight,
+  ChevronDown,
   X,
   ShoppingBag,
   ArrowRight,
 } from "lucide-react"
-import { FadeIn } from "../components/Animations"
+import { motion, AnimatePresence } from "motion/react"
+import React, { useState } from "react"
 
-type Category =
-  | "All"
-  | "Caps"
-  | "Winter Wear"
-  | "Kitchenware"
-  | "Bags"
-  | "Rainwear"
+const catalog = [
+  {
+    name: "Caps & Hats",
+    subcategories: [
+      "Promotional Caps",
+      "Baseball Caps",
+      "Trucker Caps",
+      "Visors",
+      "Military Style Caps",
+      "Back Cap",
+      "Kitchen Hat",
+      "Bucket Hat",
+      "Eco-Friendly Caps",
+      "Beanies",
+      "Polar Fleece Hat",
+      "Winter Cap",
+      "Kids Cap",
+      "Fashion Cap",
+      "Jean Cap",
+      "Work Cap",
+    ],
+  },
+  {
+    name: "Beanie, Scarf & Blanket",
+    subcategories: [
+      "Scarf",
+      "Glove",
+      "Blanket",
+      "Headband",
+      "Wristband Set",
+      "Bandana",
+      "Apron",
+      "Bread Basket",
+      "Others",
+    ],
+  },
+  {
+    name: "Gloves Apron Shopping Bag",
+    subcategories: ["Shopping Bag", "Drawstring Bag", "Handbag", "Others"],
+  },
+  {
+    name: "Raincoat & Poncho",
+    subcategories: ["Economic Poncho", "Poncho", "Sleeves", "Apron"],
+  },
+]
+
+const products = catalog.flatMap((cat) =>
+  cat.subcategories.flatMap((sub, si) =>
+    [0, 1].map((j) => ({
+      id: `${cat.name}-${si}-${j}`,
+      name: j === 0 ? `Classic ${sub}` : `Premium ${sub}`,
+      category: cat.name,
+      subcategory: sub,
+      image: `https://picsum.photos/seed/${cat.name.replace(/\W/g, "")}${si}${j}/600/600`,
+      colors: ["#345eb3", "#b61011", "#608be1", "#f8f9fa"],
+      description: `High-quality ${sub.toLowerCase()} crafted to Prolink's export standards. Ideal for bulk wholesale and custom branding.`,
+      technical:
+        "100% quality-certified materials. Customizable dimensions, colors, and branding options available.",
+    })),
+  ),
+)
 
 export const Products = () => {
-  const [activeCategory, setActiveCategory] = useState<Category>("All")
+  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activeSubcategories, setActiveSubcategories] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [selectedProduct, setSelectedProduct] = useState<
+    (typeof products)[0] | null
+  >(null)
 
-  const categories: Category[] = [
-    "All",
-    "Caps",
-    "Winter Wear",
-    "Kitchenware",
-    "Bags",
-    "Rainwear",
-  ]
+  const handleCategoryClick = (name: string) => {
+    if (activeCategory === name) {
+      setActiveCategory(null)
+      setActiveSubcategories([])
+    } else {
+      setActiveCategory(name)
+      setActiveSubcategories([])
+    }
+  }
 
-  // Mock products
-  const products = Array.from({ length: 50 }).map((_, i) => ({
-    id: i,
-    name: `${i % 5 === 0 ? "Signature" : "Premium"} ${i % 3 === 0 ? "Baseball" : "Snapback"} Cap v${i + 1}`,
-    category:
-      i < 20
-        ? "Caps"
-        : i < 30
-          ? "Winter Wear"
-          : i < 40
-            ? "Kitchenware"
-            : i < 45
-              ? "Bags"
-              : "Rainwear",
-    image: `https://picsum.photos/seed/prod${i}/600/600`,
-    colors: ["#345eb3", "#b61011", "#608be1", "#f8f9fa"],
-    description:
-      "A high-fidelity prototype product showing the quality and craftsmanship of Hebei Prolink.",
-    technical: "100% Cotton, Adjustable Strap, High-density Embroidery.",
-  }))
+  const handleSubcategoryClick = (sub: string) => {
+    setActiveSubcategories((prev) =>
+      prev.includes(sub) ? prev.filter((s) => s !== sub) : [...prev, sub],
+    )
+  }
 
-  const filteredProducts = products.filter(
-    (p) =>
-      (activeCategory === "All" || p.category === activeCategory) &&
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  const filtered = products.filter((p) => {
+    const matchesCat = !activeCategory || p.category === activeCategory
+    const matchesSub =
+      activeSubcategories.length === 0 ||
+      activeSubcategories.includes(p.subcategory)
+    const matchesSearch = p.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+    return matchesCat && matchesSub && matchesSearch
+  })
 
   return (
-    <div className="pt-24 min-h-screen bg-light-grey">
+    <div className="bg-light-grey min-h-screen pt-24">
       {/* Header */}
-      <section className="bg-white border-b py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-8">
+      <section className="border-b bg-white py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex flex-col items-end justify-between gap-8 md:flex-row">
             <div>
-              <span className="text-primary-blue font-bold uppercase tracking-[0.3em] text-sm mb-4 block">
+              <span className="text-primary-blue mb-4 block text-sm font-bold tracking-[0.3em] uppercase">
                 Our Catalog
               </span>
-              <h1 className="text-5xl md:text-6xl font-bold text-slate-900 tracking-tight leading-tight">
+              <h1 className="text-5xl leading-tight font-bold tracking-tight text-slate-900 md:text-6xl">
                 Premium <br />
                 Collection
               </h1>
             </div>
             <div className="relative w-full md:w-96">
               <Search
-                className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400"
+                className="absolute top-1/2 left-6 -translate-y-1/2 text-slate-400"
                 size={20}
               />
               <input
                 type="text"
                 placeholder="Search products..."
-                className="w-full pl-16 pr-8 py-5 border-2 border-slate-100 focus:outline-none focus:border-primary-blue transition-all bg-slate-50 focus:bg-white rounded-full"
+                className="focus:border-primary-blue w-full rounded-full border-2 border-slate-100 bg-slate-50 py-5 pr-8 pl-16 transition-all focus:bg-white focus:outline-none"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -91,48 +139,103 @@ export const Products = () => {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 py-12 lg:flex-row">
         {/* Sidebar */}
-        <aside className="w-full lg:w-64 shrink-0">
+        <aside className="w-full shrink-0 lg:w-72">
           <div className="sticky top-32">
-            <div className="flex items-center gap-2 mb-8 text-slate-900 font-bold uppercase tracking-widest text-sm">
+            <div className="mb-6 flex items-center gap-2 text-sm font-bold tracking-widest text-slate-900 uppercase">
               <Filter size={18} />
               Categories
             </div>
-            <div className="space-y-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`w-full text-left px-6 py-3 text-sm font-medium transition-all flex items-center justify-between group rounded-full mb-2 ${
-                    activeCategory === cat
-                      ? "bg-primary-blue text-white shadow-lg shadow-primary-blue/20"
-                      : "bg-white text-slate-600 hover:bg-slate-100"
-                  }`}
-                >
-                  {cat}
-                  <ChevronRight
-                    size={16}
-                    className={`transition-transform ${activeCategory === cat ? "translate-x-1" : "opacity-0 group-hover:opacity-100"}`}
-                  />
-                </button>
-              ))}
+
+            {/* All */}
+            <button
+              onClick={() => {
+                setActiveCategory(null)
+                setActiveSubcategories([])
+              }}
+              className={`group mb-2 flex w-full items-center justify-between rounded-full px-6 py-3 text-left text-sm font-medium transition-all ${
+                !activeCategory
+                  ? "bg-primary-blue shadow-primary-blue/20 text-white shadow-lg"
+                  : "bg-white text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              All Products
+              <ChevronRight
+                size={16}
+                className={`transition-transform ${!activeCategory ? "translate-x-1" : "opacity-0 group-hover:opacity-100"}`}
+              />
+            </button>
+
+            <div className="space-y-1">
+              {catalog.map((cat) => {
+                const isOpen = activeCategory === cat.name
+                return (
+                  <div key={cat.name}>
+                    <button
+                      onClick={() => handleCategoryClick(cat.name)}
+                      className={`group flex w-full items-center justify-between rounded-full px-6 py-3 text-left text-sm font-medium transition-all ${
+                        isOpen
+                          ? "bg-primary-blue shadow-primary-blue/20 text-white shadow-lg"
+                          : "bg-white text-slate-600 hover:bg-slate-100"
+                      }`}
+                    >
+                      {cat.name}
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="space-y-1 pt-1 pb-2 pl-4">
+                            {cat.subcategories.map((sub) => (
+                              <button
+                                key={sub}
+                                onClick={() => handleSubcategoryClick(sub)}
+                                className={`group flex w-full items-center justify-between rounded-full px-5 py-2 text-left text-xs font-medium transition-all ${
+                                  activeSubcategories.includes(sub)
+                                    ? "bg-slate-900 text-white"
+                                    : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+                                }`}
+                              >
+                                {sub}
+                                <ChevronRight
+                                  size={12}
+                                  className={`transition-transform ${activeSubcategories.includes(sub) ? "translate-x-0.5" : "opacity-0 group-hover:opacity-100"}`}
+                                />
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )
+              })}
             </div>
 
-            <div className="mt-12 p-10 bg-white border border-slate-100 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary-blue/5 rounded-full blur-3xl" />
-              <h4 className="text-xl font-bold mb-4 relative z-10 tracking-tight text-slate-900">
+            <div className="relative mt-10 overflow-hidden border border-slate-100 bg-white p-10">
+              <div className="bg-primary-blue/5 absolute top-0 right-0 h-32 w-32 rounded-full blur-3xl" />
+              <h4 className="relative z-10 mb-4 text-xl font-bold tracking-tight text-slate-900">
                 Custom Orders?
               </h4>
-              <p className="text-slate-500 text-sm mb-8 relative z-10 leading-relaxed">
+              <p className="relative z-10 mb-8 text-sm leading-relaxed text-slate-500">
                 We provide tailored manufacturing solutions for your specific
                 brand requirements.
               </p>
-              <button className="glass-button-primary text-white px-6 py-3 font-bold text-sm flex items-center gap-2 group relative z-10 hover:bg-primary-red transition-all rounded-full">
-                Inquire Now{" "}
+              <button className="glass-button-primary group hover:bg-primary-red relative z-10 flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white transition-all">
+                Inquire Now
                 <ArrowRight
                   size={16}
-                  className="group-hover:translate-x-1 transition-transform"
+                  className="transition-transform group-hover:translate-x-1"
                 />
               </button>
             </div>
@@ -141,9 +244,33 @@ export const Products = () => {
 
         {/* Grid */}
         <main className="flex-grow">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {activeSubcategories.length > 0 && (
+            <div className="mb-6 flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold tracking-widest text-slate-500 uppercase">
+                Filtered by:
+              </span>
+              {activeSubcategories.map((sub) => (
+                <button
+                  key={sub}
+                  onClick={() => handleSubcategoryClick(sub)}
+                  className="hover:bg-primary-blue flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-bold text-white transition-all"
+                >
+                  {sub}
+                  <X size={12} />
+                </button>
+              ))}
+              <button
+                onClick={() => setActiveSubcategories([])}
+                className="text-xs font-bold text-slate-400 underline transition-colors hover:text-slate-600"
+              >
+                Clear all
+              </button>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
-              {filteredProducts.map((product, i) => (
+              {filtered.map((product) => (
                 <motion.div
                   key={product.id}
                   layout
@@ -154,23 +281,23 @@ export const Products = () => {
                   className="group cursor-pointer"
                   onClick={() => setSelectedProduct(product)}
                 >
-                  <div className="aspect-square bg-white overflow-hidden mb-8 relative shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                  <div className="relative mb-4 aspect-square overflow-hidden bg-white shadow-sm transition-all duration-500 group-hover:shadow-2xl">
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-0 bg-primary-blue/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="glass-button text-slate-900 px-8 py-3 font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-all rounded-full">
+                    <div className="bg-primary-blue/10 absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="glass-button translate-y-4 transform rounded-full px-8 py-3 text-sm font-bold text-slate-900 transition-all group-hover:translate-y-0">
                         Quick View
                       </span>
                     </div>
                   </div>
-                  <span className="text-primary-blue text-[10px] font-bold uppercase tracking-[0.2em] mb-2 block">
-                    {product.category}
+                  <span className="text-primary-blue mb-1 block text-[10px] font-bold tracking-[0.2em] uppercase">
+                    {product.subcategory}
                   </span>
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary-blue transition-colors tracking-tight">
+                  <h3 className="group-hover:text-primary-blue text-lg font-bold tracking-tight text-slate-900 transition-colors">
                     {product.name}
                   </h3>
                 </motion.div>
@@ -178,10 +305,10 @@ export const Products = () => {
             </AnimatePresence>
           </div>
 
-          {filteredProducts.length === 0 && (
+          {filtered.length === 0 && (
             <div className="py-24 text-center">
-              <ShoppingBag size={48} className="mx-auto text-slate-200 mb-4" />
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
+              <ShoppingBag size={48} className="mx-auto mb-4 text-slate-200" />
+              <h3 className="mb-2 text-xl font-bold text-slate-900">
                 No products found
               </h3>
               <p className="text-slate-500">
@@ -207,71 +334,72 @@ export const Products = () => {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative bg-white w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
+              className="relative flex w-full max-w-5xl flex-col overflow-hidden bg-white shadow-2xl md:flex-row"
             >
               <button
                 onClick={() => setSelectedProduct(null)}
-                className="absolute top-6 right-6 z-10 w-10 h-10 glass-button flex items-center justify-center text-slate-900 hover:bg-white transition-all shadow-sm rounded-full"
+                className="glass-button absolute top-6 right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full text-slate-900 shadow-sm transition-all hover:bg-white"
               >
                 <X size={20} />
               </button>
 
-              <div className="w-full md:w-1/2 bg-slate-100">
+              <div className="w-full bg-slate-100 md:w-1/2">
                 <img
                   src={selectedProduct.image}
                   alt={selectedProduct.name}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   referrerPolicy="no-referrer"
                 />
               </div>
 
-              <div className="w-full md:w-1/2 p-16 flex flex-col">
+              <div className="flex w-full flex-col p-16 md:w-1/2">
                 <div className="flex-grow">
-                  <span className="text-primary-blue font-bold uppercase tracking-[0.3em] text-xs mb-6 block">
+                  <span className="text-primary-blue mb-2 block text-xs font-bold tracking-[0.3em] uppercase">
                     {selectedProduct.category}
                   </span>
-                  <h2 className="text-4xl font-bold text-slate-900 mb-10 tracking-tight">
+                  <span className="mb-6 block text-xs font-bold tracking-widest text-slate-400 uppercase">
+                    {selectedProduct.subcategory}
+                  </span>
+                  <h2 className="mb-10 text-4xl font-bold tracking-tight text-slate-900">
                     {selectedProduct.name}
                   </h2>
 
                   <div className="mb-12">
-                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-[0.2em] mb-6">
+                    <h4 className="mb-6 text-xs font-bold tracking-[0.2em] text-slate-900 uppercase">
                       Color Variants
                     </h4>
                     <div className="flex gap-4">
-                      {selectedProduct.colors.map(
-                        (color: string, i: number) => (
-                          <button
-                            key={i}
-                            className="w-10 h-10 border-2 border-white ring-1 ring-slate-100 hover:ring-primary-blue transition-all rounded-full"
-                            style={{ backgroundColor: color }}
-                          />
-                        ),
-                      )}
+                      {selectedProduct.colors.map((color, i) => (
+                        <button
+                          key={i}
+                          className="hover:ring-primary-blue h-10 w-10 rounded-full border-2 border-white ring-1 ring-slate-100 transition-all"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
                     </div>
                   </div>
 
                   <div className="mb-12">
-                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-[0.2em] mb-4">
+                    <h4 className="mb-4 text-xs font-bold tracking-[0.2em] text-slate-900 uppercase">
                       Description
                     </h4>
-                    <p className="text-slate-500 text-lg leading-relaxed">
+                    <p className="text-lg leading-relaxed text-slate-500">
                       {selectedProduct.description}
                     </p>
                   </div>
 
-                  <div className="bg-light-grey p-8 border border-slate-100">
-                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-[0.2em] mb-4">
+                  <div className="bg-light-grey border border-slate-100 p-8">
+                    <h4 className="mb-4 text-xs font-bold tracking-[0.2em] text-slate-900 uppercase">
                       Technical Details
                     </h4>
-                    <p className="text-slate-500 text-sm leading-relaxed">
+                    <p className="text-sm leading-relaxed text-slate-500">
                       {selectedProduct.technical}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-16 flex gap-6">
-                  <button className="flex-grow glass-button-primary text-white py-5 font-bold hover:bg-primary-red transition-all text-lg rounded-full">
+                  <button className="glass-button-primary hover:bg-primary-red flex-grow rounded-full py-5 text-lg font-bold text-white transition-all">
                     Inquire for Bulk Order
                   </button>
                 </div>

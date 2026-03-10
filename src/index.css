@@ -6,7 +6,8 @@
   --color-primary-red: #b61011;
   --color-secondary-red: #c83233;
   --color-light-grey: #f8f9fa;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans:
+    "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -15,6 +16,9 @@
   }
   body {
     @apply bg-white text-slate-900 antialiased;
+  }
+  button {
+    @apply cursor-pointer disabled:cursor-not-allowed;
   }
 }
 
@@ -26,13 +30,13 @@
 }
 
 .glass-button {
-  @apply backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg transition-all hover:bg-white/20 active:scale-95;
+  @apply border border-white/20 bg-white/10 shadow-lg backdrop-blur-lg transition-all hover:bg-white/20 active:scale-95;
 }
 
 .glass-button-dark {
-  @apply backdrop-blur-lg bg-black/20 border border-white/10 shadow-lg transition-all hover:bg-black/30 active:scale-95;
+  @apply border border-white/10 bg-black/20 shadow-lg backdrop-blur-lg transition-all hover:bg-black/30 active:scale-95;
 }
 
 .glass-button-primary {
-  @apply backdrop-blur-lg bg-primary-blue/80 border border-white/20 shadow-lg transition-all hover:bg-primary-blue active:scale-95;
+  @apply bg-primary-blue/80 hover:bg-primary-blue border border-white/20 shadow-lg backdrop-blur-lg transition-all active:scale-95;
 }

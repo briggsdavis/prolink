@@ -1,6 +1,3 @@
-import React, { useState } from "react"
-import { motion, AnimatePresence } from "motion/react"
-import { FadeIn } from "../components/Animations"
 import {
   ArrowRight,
   Calendar,
@@ -13,6 +10,9 @@ import {
   X,
   Clock,
 } from "lucide-react"
+import { motion, AnimatePresence } from "motion/react"
+import React, { useState } from "react"
+import { FadeIn } from "../components/Animations"
 
 type Category = "All" | "Industry" | "Product" | "Company"
 type ViewMode = "grid" | "list"
@@ -114,34 +114,34 @@ export const News = () => {
 
   if (selectedArticle) {
     return (
-      <div className="pt-24 min-h-screen bg-white">
+      <div className="min-h-screen bg-white pt-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto px-6 py-20"
+          className="mx-auto max-w-4xl px-6 py-20"
         >
           <button
             onClick={() => setSelectedArticle(null)}
-            className="flex items-center gap-2 text-slate-500 hover:text-primary-blue transition-colors mb-12 group"
+            className="hover:text-primary-blue group mb-12 flex items-center gap-2 text-slate-500 transition-colors"
           >
             <ChevronLeft
               size={20}
-              className="group-hover:-translate-x-1 transition-transform"
+              className="transition-transform group-hover:-translate-x-1"
             />
             Back to News
           </button>
 
-          <div className="aspect-video w-full overflow-hidden mb-12">
+          <div className="mb-12 aspect-video w-full overflow-hidden">
             <img
               src={selectedArticle.image}
               alt={selectedArticle.title}
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
               referrerPolicy="no-referrer"
             />
           </div>
 
-          <div className="flex items-center gap-6 text-slate-400 text-sm font-bold uppercase tracking-widest mb-8">
-            <span className="bg-primary-blue text-white px-4 py-1.5 text-[10px]">
+          <div className="mb-8 flex items-center gap-6 text-sm font-bold tracking-widest text-slate-400 uppercase">
+            <span className="bg-primary-blue px-4 py-1.5 text-[10px] text-white">
               {selectedArticle.category}
             </span>
             <div className="flex items-center gap-2">
@@ -154,26 +154,26 @@ export const News = () => {
             </div>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-10 leading-tight tracking-tight">
+          <h1 className="mb-10 text-4xl leading-tight font-bold tracking-tight text-slate-900 md:text-6xl">
             {selectedArticle.title}
           </h1>
 
-          <div className="flex items-center gap-4 mb-12 pb-12 border-b border-slate-100">
-            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-primary-blue font-bold">
+          <div className="mb-12 flex items-center gap-4 border-b border-slate-100 pb-12">
+            <div className="text-primary-blue flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 font-bold">
               {selectedArticle.author[0]}
             </div>
             <div>
-              <p className="text-slate-900 font-bold">
+              <p className="font-bold text-slate-900">
                 {selectedArticle.author}
               </p>
-              <p className="text-slate-400 text-xs uppercase tracking-widest">
+              <p className="text-xs tracking-widest text-slate-400 uppercase">
                 Article Author
               </p>
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-slate-600 leading-relaxed space-y-8">
-            <p className="text-xl text-slate-900 font-medium leading-relaxed italic border-l-4 border-primary-blue pl-8">
+          <div className="prose prose-lg max-w-none space-y-8 leading-relaxed text-slate-600">
+            <p className="border-primary-blue border-l-4 pl-8 text-xl leading-relaxed font-medium text-slate-900 italic">
               {selectedArticle.excerpt}
             </p>
             <p>{selectedArticle.content}</p>
@@ -195,18 +195,18 @@ export const News = () => {
             </p>
           </div>
 
-          <div className="mt-20 pt-12 border-t border-slate-100 flex justify-between items-center">
+          <div className="mt-20 flex items-center justify-between border-t border-slate-100 pt-12">
             <div className="flex gap-4">
-              <button className="w-10 h-10 border border-slate-200 flex items-center justify-center hover:bg-primary-blue hover:text-white transition-all rounded-full">
+              <button className="hover:bg-primary-blue flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 transition-all hover:text-white">
                 <ArrowRight size={18} className="rotate-180" />
               </button>
-              <button className="w-10 h-10 border border-slate-200 flex items-center justify-center hover:bg-primary-blue hover:text-white transition-all rounded-full">
+              <button className="hover:bg-primary-blue flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 transition-all hover:text-white">
                 <ArrowRight size={18} />
               </button>
             </div>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="text-primary-blue font-bold uppercase tracking-widest text-xs hover:underline px-6 py-2.5 rounded-full border border-primary-blue/10 hover:bg-primary-blue/5"
+              className="text-primary-blue border-primary-blue/10 hover:bg-primary-blue/5 rounded-full border px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:underline"
             >
               Back to top
             </button>
@@ -217,19 +217,19 @@ export const News = () => {
   }
 
   return (
-    <div className="pt-24 min-h-screen bg-light-grey">
+    <div className="bg-light-grey min-h-screen pt-24">
       {/* Hero Section */}
-      <section className="bg-white border-b py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <section className="relative overflow-hidden border-b bg-white py-24">
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="max-w-4xl">
-            <span className="text-primary-blue font-bold uppercase tracking-[0.3em] text-xs mb-6 block">
+            <span className="text-primary-blue mb-6 block text-xs font-bold tracking-[0.3em] uppercase">
               Stay Informed
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-8 tracking-tight leading-tight">
+            <h1 className="mb-8 text-5xl leading-tight font-bold tracking-tight text-slate-900 md:text-7xl">
               Latest <span className="text-primary-blue">Updates</span> <br />&
               Insights
             </h1>
-            <p className="text-slate-500 text-xl leading-relaxed max-w-2xl">
+            <p className="max-w-2xl text-xl leading-relaxed text-slate-500">
               Discover the latest news from Hebei Prolink, industry trends, and
               our global trading milestones.
             </p>
@@ -238,31 +238,31 @@ export const News = () => {
       </section>
 
       {/* Controls Section */}
-      <section className="bg-white border-b sticky top-20 z-30 py-6">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+      <section className="sticky top-20 z-30 border-b bg-white py-6">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 md:flex-row">
           {/* Search */}
           <div className="relative w-full md:w-96">
             <Search
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+              className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"
               size={18}
             />
             <input
               type="text"
               placeholder="Search articles..."
-              className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 focus:outline-none focus:border-primary-blue transition-all text-sm rounded-full"
+              className="focus:border-primary-blue w-full rounded-full border border-slate-100 bg-slate-50 py-3 pr-4 pl-12 text-sm transition-all focus:outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           {/* Filters */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
+          <div className="no-scrollbar flex w-full items-center gap-2 overflow-x-auto pb-2 md:w-auto md:pb-0">
             {(["All", "Industry", "Product", "Company"] as Category[]).map(
               (cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-6 py-2.5 text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap rounded-full ${
+                  className={`rounded-full px-6 py-2.5 text-xs font-bold tracking-widest whitespace-nowrap uppercase transition-all ${
                     activeCategory === cat
                       ? "bg-primary-blue text-white shadow-lg"
                       : "bg-slate-50 text-slate-500 hover:bg-slate-100"
@@ -275,17 +275,17 @@ export const News = () => {
           </div>
 
           {/* View Mode */}
-          <div className="flex items-center gap-1 bg-slate-50 p-1 border border-slate-100 rounded-full">
+          <div className="flex items-center gap-1 rounded-full border border-slate-100 bg-slate-50 p-1">
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2 transition-all rounded-full ${viewMode === "grid" ? "bg-white text-primary-blue shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
+              className={`rounded-full p-2 transition-all ${viewMode === "grid" ? "text-primary-blue bg-white shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
               title="Grid View"
             >
               <LayoutGrid size={18} />
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2 transition-all rounded-full ${viewMode === "list" ? "bg-white text-primary-blue shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
+              className={`rounded-full p-2 transition-all ${viewMode === "list" ? "text-primary-blue bg-white shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
               title="List View"
             >
               <List size={18} />
@@ -296,7 +296,7 @@ export const News = () => {
 
       {/* Blog Content */}
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="mx-auto max-w-7xl px-6">
           <AnimatePresence mode="wait">
             {viewMode === "grid" ? (
               <motion.div
@@ -304,31 +304,31 @@ export const News = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+                className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3"
               >
                 {filteredArticles.map((article, i) => (
                   <div key={article.id}>
                     <FadeIn delay={i * 0.05}>
                       <div
-                        className="group bg-white overflow-hidden hover:shadow-xl transition-all border border-slate-100 flex flex-col h-full cursor-pointer"
+                        className="group flex h-full cursor-pointer flex-col overflow-hidden border border-slate-100 bg-white transition-all hover:shadow-xl"
                         onClick={() => setSelectedArticle(article)}
                       >
-                        <div className="aspect-video overflow-hidden relative">
+                        <div className="relative aspect-video overflow-hidden">
                           <img
                             src={article.image}
                             alt={article.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                             referrerPolicy="no-referrer"
                           />
                           <div className="absolute top-0 left-0">
-                            <span className="bg-primary-blue text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+                            <span className="bg-primary-blue px-4 py-2 text-[10px] font-bold tracking-widest text-white uppercase">
                               {article.category}
                             </span>
                           </div>
                         </div>
 
-                        <div className="p-8 flex flex-col flex-grow">
-                          <div className="flex items-center gap-6 text-slate-400 text-[10px] font-bold mb-6 uppercase tracking-widest">
+                        <div className="flex flex-grow flex-col p-8">
+                          <div className="mb-6 flex items-center gap-6 text-[10px] font-bold tracking-widest text-slate-400 uppercase">
                             <div className="flex items-center gap-2">
                               <Calendar
                                 size={14}
@@ -338,19 +338,19 @@ export const News = () => {
                             </div>
                           </div>
 
-                          <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-primary-blue transition-colors leading-tight tracking-tight">
+                          <h3 className="group-hover:text-primary-blue mb-4 text-2xl leading-tight font-bold tracking-tight text-slate-900 transition-colors">
                             {article.title}
                           </h3>
 
-                          <p className="text-slate-500 text-sm leading-relaxed mb-8 flex-grow line-clamp-3">
+                          <p className="mb-8 line-clamp-3 flex-grow text-sm leading-relaxed text-slate-500">
                             {article.excerpt}
                           </p>
 
-                          <button className="inline-flex items-center gap-2 text-primary-blue font-bold group/btn text-sm px-6 py-2.5 rounded-full border border-primary-blue/20 hover:bg-primary-blue hover:text-white transition-all">
+                          <button className="text-primary-blue group/btn border-primary-blue/20 hover:bg-primary-blue inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-bold transition-all hover:text-white">
                             Read More
                             <ArrowRight
                               size={18}
-                              className="group-hover/btn:translate-x-1 transition-transform"
+                              className="transition-transform group-hover/btn:translate-x-1"
                             />
                           </button>
                         </div>
@@ -371,25 +371,25 @@ export const News = () => {
                   <div key={article.id}>
                     <FadeIn delay={i * 0.05}>
                       <div
-                        className="group bg-white overflow-hidden hover:shadow-xl transition-all border border-slate-100 flex flex-col md:flex-row h-full cursor-pointer"
+                        className="group flex h-full cursor-pointer flex-col overflow-hidden border border-slate-100 bg-white transition-all hover:shadow-xl md:flex-row"
                         onClick={() => setSelectedArticle(article)}
                       >
-                        <div className="w-full md:w-80 lg:w-96 shrink-0 aspect-video md:aspect-auto overflow-hidden relative">
+                        <div className="relative aspect-video w-full shrink-0 overflow-hidden md:aspect-auto md:w-80 lg:w-96">
                           <img
                             src={article.image}
                             alt={article.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                             referrerPolicy="no-referrer"
                           />
                           <div className="absolute top-0 left-0">
-                            <span className="bg-primary-blue text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+                            <span className="bg-primary-blue px-4 py-2 text-[10px] font-bold tracking-widest text-white uppercase">
                               {article.category}
                             </span>
                           </div>
                         </div>
 
-                        <div className="p-10 flex flex-col flex-grow justify-center">
-                          <div className="flex items-center gap-6 text-slate-400 text-[10px] font-bold mb-4 uppercase tracking-widest">
+                        <div className="flex flex-grow flex-col justify-center p-10">
+                          <div className="mb-4 flex items-center gap-6 text-[10px] font-bold tracking-widest text-slate-400 uppercase">
                             <div className="flex items-center gap-2">
                               <Calendar
                                 size={14}
@@ -403,19 +403,19 @@ export const News = () => {
                             </div>
                           </div>
 
-                          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4 group-hover:text-primary-blue transition-colors leading-tight tracking-tight">
+                          <h3 className="group-hover:text-primary-blue mb-4 text-2xl leading-tight font-bold tracking-tight text-slate-900 transition-colors md:text-3xl">
                             {article.title}
                           </h3>
 
-                          <p className="text-slate-500 text-base leading-relaxed mb-6 line-clamp-2">
+                          <p className="mb-6 line-clamp-2 text-base leading-relaxed text-slate-500">
                             {article.excerpt}
                           </p>
 
-                          <button className="inline-flex items-center gap-2 text-primary-blue font-bold group/btn text-sm px-6 py-2.5 rounded-full border border-primary-blue/20 hover:bg-primary-blue hover:text-white transition-all">
+                          <button className="text-primary-blue group/btn border-primary-blue/20 hover:bg-primary-blue inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-bold transition-all hover:text-white">
                             Read Full Article
                             <ArrowRight
                               size={18}
-                              className="group-hover/btn:translate-x-1 transition-transform"
+                              className="transition-transform group-hover/btn:translate-x-1"
                             />
                           </button>
                         </div>
@@ -429,10 +429,10 @@ export const News = () => {
 
           {filteredArticles.length === 0 && (
             <div className="py-32 text-center">
-              <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 text-slate-300">
                 <Search size={32} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">
+              <h3 className="mb-2 text-2xl font-bold text-slate-900">
                 No articles found
               </h3>
               <p className="text-slate-500">
@@ -444,7 +444,7 @@ export const News = () => {
                   setSearchQuery("")
                   setActiveCategory("All")
                 }}
-                className="mt-8 text-primary-blue font-bold uppercase tracking-widest text-xs hover:underline"
+                className="text-primary-blue mt-8 text-xs font-bold tracking-widest uppercase hover:underline"
               >
                 Clear all filters
               </button>
@@ -452,7 +452,7 @@ export const News = () => {
           )}
 
           <div className="mt-20 text-center">
-            <button className="px-10 py-4 border border-slate-200 font-bold hover:border-primary-blue hover:text-primary-blue transition-all text-sm uppercase tracking-widest">
+            <button className="hover:border-primary-blue hover:text-primary-blue border border-slate-200 px-10 py-4 text-sm font-bold tracking-widest uppercase transition-all">
               Load More Articles
             </button>
           </div>
@@ -460,28 +460,28 @@ export const News = () => {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-24 bg-white relative overflow-hidden border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center text-slate-900">
-          <span className="text-primary-blue font-bold uppercase tracking-widest text-[10px] mb-6 block">
+      <section className="relative overflow-hidden border-t border-slate-100 bg-white py-24">
+        <div className="relative z-10 mx-auto max-w-7xl px-6 text-center text-slate-900">
+          <span className="text-primary-blue mb-6 block text-[10px] font-bold tracking-widest uppercase">
             Join our community
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight">
+          <h2 className="mb-8 text-4xl font-bold tracking-tight md:text-6xl">
             Never Miss an Update
           </h2>
-          <p className="text-slate-500 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-slate-500">
             Subscribe to our newsletter to receive the latest industry news and
             product updates directly in your inbox.
           </p>
           <form
-            className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto"
+            className="mx-auto flex max-w-2xl flex-col gap-4 md:flex-row"
             onSubmit={(e) => e.preventDefault()}
           >
             <input
               type="email"
               placeholder="Your email address"
-              className="bg-light-grey border border-slate-200 px-8 py-4 flex-grow focus:outline-none focus:border-primary-blue transition-all placeholder:text-slate-400 text-base"
+              className="bg-light-grey focus:border-primary-blue flex-grow border border-slate-200 px-8 py-4 text-base transition-all placeholder:text-slate-400 focus:outline-none"
             />
-            <button className="bg-primary-blue text-white px-10 py-4 font-bold hover:bg-primary-red transition-all text-base whitespace-nowrap">
+            <button className="bg-primary-blue hover:bg-primary-red px-10 py-4 text-base font-bold whitespace-nowrap text-white transition-all">
               Subscribe Now
             </button>
           </form>

@@ -9,6 +9,7 @@
     "format": "oxfmt"
   },
   "dependencies": {
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "@google/genai": "1.44.0",
     "@tailwindcss/vite": "4.2.1",
     "@vitejs/plugin-react": "5.1.4",

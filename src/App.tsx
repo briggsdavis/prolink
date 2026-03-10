@@ -1,13 +1,13 @@
-import React, { useEffect } from "react"
-import { Routes, Route, useLocation, Link } from "react-router"
-import { Header, Footer } from "./components/Layout"
-import { Home } from "./pages/Home"
-import { About } from "./pages/About"
-import { Products } from "./pages/Products"
-import { News } from "./pages/News"
-import { Contact } from "./pages/Contact"
 import { MessageSquare } from "lucide-react"
-import { motion, AnimatePresence } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
+import { useEffect } from "react"
+import { Link, Route, Routes, useLocation } from "react-router"
+import { Footer, Header } from "./components/Layout"
+import { About } from "./pages/About"
+import { Contact } from "./pages/Contact"
+import { Home } from "./pages/Home"
+import { News } from "./pages/News"
+import { Products } from "./pages/Products"
 
 const seo: Record<string, { title: string; description: string }> = {
   "/": {
@@ -58,10 +58,10 @@ export default function App() {
   }, [location.pathname])
 
   return (
-    <div className="min-h-screen flex flex-col font-sans selection:bg-primary-blue selection:text-white">
+    <div className="selection:bg-primary-blue flex min-h-screen flex-col font-sans selection:text-white">
       <Header />
 
-      <main className="flex-grow">
+      <main className="grow">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -87,13 +87,13 @@ export default function App() {
       {/* Persistent CTA */}
       <Link
         to="/contact"
-        className="fixed bottom-8 right-8 z-40 bg-primary-red text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group"
+        className="bg-primary-red group fixed right-8 bottom-8 z-40 flex h-16 w-16 items-center justify-center rounded-full text-white shadow-2xl transition-all hover:scale-110 active:scale-95"
       >
         <MessageSquare
           size={28}
-          className="group-hover:rotate-12 transition-transform"
+          className="transition-transform group-hover:rotate-12"
         />
-        <span className="absolute right-full mr-4 bg-primary-blue text-white px-4 py-2 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+        <span className="bg-primary-blue pointer-events-none absolute right-full mr-4 px-4 py-2 text-sm font-bold whitespace-nowrap text-white opacity-0 transition-opacity group-hover:opacity-100">
           Contact Us
         </span>
       </Link>

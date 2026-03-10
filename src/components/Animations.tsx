@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
 import { motion, animate } from "motion/react"
+import React, { useState, useEffect } from "react"
 
 interface CountUpProps {
   to: number
@@ -37,15 +37,17 @@ export function CountUp({
 export function FadeIn({
   children,
   delay = 0,
+  className,
 }: {
   children: React.ReactNode
   delay?: number
+  className?: string
 }) {
   return (
     <motion.div
+      className={className}
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
     >
       {children}

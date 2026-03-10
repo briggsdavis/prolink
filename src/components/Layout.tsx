@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react"
 import {
   Menu,
   X,
@@ -16,6 +15,7 @@ import {
   MessageSquare,
 } from "lucide-react"
 import { motion, AnimatePresence } from "motion/react"
+import React, { useState, useRef, useEffect } from "react"
 import { Link, useLocation, useNavigate } from "react-router"
 
 // --- Types ---
@@ -31,87 +31,188 @@ const navLinks = [
 
 // --- Components ---
 
+const languages = [
+  { code: "EN", flag: "🇬🇧", name: "English" },
+  { code: "CN", flag: "🇨🇳", name: "Chinese" },
+  { code: "ES", flag: "🇪🇸", name: "Spanish" },
+  { code: "FR", flag: "🇫🇷", name: "French" },
+  { code: "DE", flag: "🇩🇪", name: "German" },
+  { code: "JA", flag: "🇯🇵", name: "Japanese" },
+  { code: "PT", flag: "🇵🇹", name: "Portuguese" },
+  { code: "AR", flag: "🇸🇦", name: "Arabic" },
+  { code: "RU", flag: "🇷🇺", name: "Russian" },
+  { code: "KO", flag: "🇰🇷", name: "Korean" },
+]
+
 export const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [lang, setLang] = useState<"EN" | "CN">("EN")
+  const [lang, setLang] = useState(languages[0])
+  const [langOpen, setLangOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`)
+      setSearchOpen(false)
+      setSearchQuery("")
+    }
+  }
+  const langRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
   const navigate = useNavigate()
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50)
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    const handler = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
   }, [])
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-md py-6" : "bg-transparent py-6"}`}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+    <header className="fixed top-0 left-0 z-50 w-full bg-white py-6 shadow-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6">
         {/* Logo */}
-        <Link to="/" className="flex items-center group">
+        <Link to="/" className="group flex shrink-0 items-center">
           <img
             src="/pro.png"
             alt="Prolink Logo"
-            className="h-12 w-auto group-hover:scale-110 transition-transform"
+            className="h-12 w-auto transition-transform group-hover:scale-110"
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-sm font-bold uppercase tracking-widest transition-colors hover:text-primary-blue relative group ${
-                isScrolled
-                  ? location.pathname === link.path
+        {/* Middle slot — self-stretch so height matches logo (h-12). Search button lives here so search bar can cover it. */}
+        <div className="relative hidden flex-1 items-center self-stretch md:flex">
+          {/* Nav — absolutely centered, fades out when search opens */}
+          <nav
+            className={`pointer-events-none absolute inset-0 flex items-center justify-center gap-8 transition-opacity duration-150 ${searchOpen ? "opacity-0" : "opacity-100"}`}
+          >
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`hover:text-primary-blue group pointer-events-auto relative text-sm font-bold tracking-widest uppercase transition-colors ${
+                  location.pathname === link.path
                     ? "text-slate-900"
                     : "text-slate-600"
-                  : location.pathname === link.path
-                    ? "text-white"
-                    : "text-white/80"
-              }`}
-            >
-              {link.label}
-              <span
-                className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all group-hover:w-full ${isScrolled ? "bg-slate-900" : "bg-white"} ${location.pathname === link.path ? "w-full" : ""}`}
-              />
-            </Link>
-          ))}
-        </nav>
+                }`}
+              >
+                {link.label}
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 w-0 bg-slate-900 transition-all group-hover:w-full ${location.pathname === link.path ? "w-full" : ""}`}
+                />
+              </Link>
+            ))}
+          </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-4">
+          {/* Search toggle — in flow, pushed right, so search bar covers its space */}
           <button
-            onClick={() => setLang(lang === "EN" ? "CN" : "EN")}
-            className={`flex items-center gap-1 text-xs font-bold border px-4 py-2 transition-all rounded-full ${
-              isScrolled
-                ? "text-slate-900 border-slate-200 hover:bg-slate-50"
-                : "glass-button text-white border-white/40"
+            onClick={() => setSearchOpen(true)}
+            className={`ml-auto flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition-opacity duration-150 hover:bg-slate-50 ${searchOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
+          >
+            <Search size={16} />
+          </button>
+
+          {/* Search bar — absolute inset-0 covers nav + search button */}
+          <form
+            onSubmit={handleSearch}
+            className={`border-primary-blue absolute inset-0 flex items-center gap-3 rounded-full border-2 bg-slate-50 px-5 transition-opacity duration-150 ${
+              searchOpen
+                ? "pointer-events-auto opacity-100"
+                : "pointer-events-none opacity-0"
             }`}
           >
-            <Globe size={14} />
-            {lang}
-          </button>
+            <Search size={18} className="text-primary-blue shrink-0" />
+            <input
+              tabIndex={searchOpen ? 0 : -1}
+              ref={(el) => {
+                if (searchOpen && el) setTimeout(() => el.focus(), 0)
+              }}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search for products..."
+              className="flex-1 bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                setSearchOpen(false)
+                setSearchQuery("")
+              }}
+              className="text-slate-400 transition-colors hover:text-slate-600"
+            >
+              <X size={16} />
+            </button>
+          </form>
+        </div>
+
+        {/* Actions */}
+        <div className="flex shrink-0 items-center gap-3">
+          {/* Language picker */}
+          <div className="relative" ref={langRef}>
+            <button
+              onClick={() => setLangOpen(!langOpen)}
+              className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-2 text-xs font-bold text-slate-900 transition-all hover:bg-slate-50"
+            >
+              <span>{lang.flag}</span>
+              <span>{lang.code}</span>
+            </button>
+
+            <AnimatePresence>
+              {langOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full right-0 z-50 mt-2 w-44 overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl"
+                >
+                  <div className="max-h-72 overflow-y-auto">
+                    {languages.map((l) => (
+                      <button
+                        key={l.code}
+                        onClick={() => {
+                          setLang(l)
+                          setLangOpen(false)
+                        }}
+                        className={`flex w-full items-center gap-3 px-4 py-2 text-left text-xs transition-colors ${
+                          lang.code === l.code
+                            ? "bg-primary-blue/5 text-primary-blue font-bold"
+                            : "font-medium text-slate-600 hover:bg-slate-50"
+                        }`}
+                      >
+                        <span className="text-base">{l.flag}</span>
+                        <span>{l.name}</span>
+                        <span className="ml-auto font-bold text-slate-400">
+                          {l.code}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <Link
             to="/contact"
-            className="hidden md:block bg-primary-red text-white px-8 py-2.5 text-sm font-bold hover:bg-primary-blue transition-all active:scale-95 rounded-full shadow-lg"
+            className="bg-primary-red hover:bg-primary-blue hidden rounded-full px-8 py-2.5 text-sm font-bold text-white shadow-lg transition-all active:scale-95 md:block"
           >
             Contact
           </Link>
           <button
-            className={`md:hidden ${isScrolled ? "text-slate-900" : "text-white"}`}
+            className="text-slate-900 md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
               <X size={24} />
             ) : (
-              <Menu
-                size={24}
-                className={isScrolled ? "text-slate-900" : "text-white"}
-              />
+              <Menu size={24} className="text-slate-900" />
             )}
           </button>
         </div>
@@ -124,9 +225,9 @@ export const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t overflow-hidden"
+            className="overflow-hidden border-t bg-white md:hidden"
           >
-            <div className="flex flex-col p-6 gap-4">
+            <div className="flex flex-col gap-4 p-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -140,7 +241,7 @@ export const Header = () => {
               <Link
                 to="/contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="bg-primary-blue text-white px-6 py-3 text-center font-bold rounded-full shadow-lg"
+                className="bg-primary-blue rounded-full px-6 py-3 text-center font-bold text-white shadow-lg"
               >
                 Get in Touch
               </Link>
@@ -154,15 +255,15 @@ export const Header = () => {
 
 export const Footer = () => {
   return (
-    <footer className="bg-light-grey text-slate-900 pt-24 pb-12 border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+    <footer className="bg-light-grey border-t border-slate-100 pt-24 pb-12 text-slate-900">
+      <div className="mx-auto mb-24 grid max-w-7xl grid-cols-1 gap-16 px-6 md:grid-cols-4">
         <div className="col-span-1 md:col-span-1">
-          <div className="flex items-center gap-2 mb-8">
-            <div className="w-12 h-12 bg-primary-blue flex items-center justify-center text-white font-bold text-2xl rounded-full">
+          <div className="mb-8 flex items-center gap-2">
+            <div className="bg-primary-blue flex h-12 w-12 items-center justify-center rounded-full text-2xl font-bold text-white">
               P
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl leading-none tracking-tight">
+              <span className="text-xl leading-none font-bold tracking-tight">
                 PROLINK
               </span>
               <span className="text-[10px] tracking-widest uppercase opacity-60">
@@ -170,26 +271,26 @@ export const Footer = () => {
               </span>
             </div>
           </div>
-          <p className="text-slate-500 text-sm leading-relaxed mb-8">
+          <p className="mb-8 text-sm leading-relaxed text-slate-500">
             A leading index model enterprise founded in 2004, specializing in
             high-end caps, hats, and global trading solutions.
           </p>
           <div className="flex gap-4">
             <a
               href="#"
-              className="w-12 h-12 border border-slate-200 flex items-center justify-center hover:bg-primary-blue hover:text-white transition-colors rounded-full"
+              className="hover:bg-primary-blue flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 transition-colors hover:text-white"
             >
               <Facebook size={20} />
             </a>
             <a
               href="#"
-              className="w-12 h-12 border border-slate-200 flex items-center justify-center hover:bg-primary-blue hover:text-white transition-colors rounded-full"
+              className="hover:bg-primary-blue flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 transition-colors hover:text-white"
             >
               <Twitter size={20} />
             </a>
             <a
               href="#"
-              className="w-12 h-12 border border-slate-200 flex items-center justify-center hover:bg-primary-blue hover:text-white transition-colors rounded-full"
+              className="hover:bg-primary-blue flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 transition-colors hover:text-white"
             >
               <Instagram size={20} />
             </a>
@@ -197,8 +298,8 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 text-lg">Quick Links</h4>
-          <ul className="space-y-4 text-slate-500 text-sm">
+          <h4 className="mb-6 text-lg font-bold">Quick Links</h4>
+          <ul className="space-y-4 text-sm text-slate-500">
             <li>
               <Link
                 to="/"
@@ -243,8 +344,8 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 text-lg">Products</h4>
-          <ul className="space-y-4 text-slate-500 text-sm">
+          <h4 className="mb-6 text-lg font-bold">Products</h4>
+          <ul className="space-y-4 text-sm text-slate-500">
             <li>
               <Link
                 to="/products"
@@ -289,8 +390,8 @@ export const Footer = () => {
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 text-lg">Contact Us</h4>
-          <ul className="space-y-4 text-slate-500 text-sm">
+          <h4 className="mb-6 text-lg font-bold">Contact Us</h4>
+          <ul className="space-y-4 text-sm text-slate-500">
             <li className="flex gap-3">
               <MapPin size={18} className="text-primary-blue shrink-0" />
               <span>Hebei, China</span>
@@ -307,19 +408,19 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/10 px-6 pt-10 text-xs text-slate-500 md:flex-row">
         <p>
           © {new Date().getFullYear()} Hebei Prolink Import and Export Trading
           Co., Ltd. All rights reserved.
         </p>
         <div className="flex gap-6">
-          <a href="#" className="hover:text-white transition-colors">
+          <a href="#" className="transition-colors hover:text-white">
             Privacy Policy
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+          <a href="#" className="transition-colors hover:text-white">
             Terms of Service
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+          <a href="#" className="transition-colors hover:text-white">
             Cookie Policy
           </a>
         </div>

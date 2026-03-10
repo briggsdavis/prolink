@@ -1,54 +1,53 @@
-import React from "react"
 import {
   ArrowRight,
   Globe,
-  Users,
-  Award,
   CheckCircle2,
-  ShoppingBag,
   TrendingUp,
 } from "lucide-react"
 import { motion } from "motion/react"
-import { CountUp, FadeIn } from "../components/Animations"
 import { Link } from "react-router"
+import { CountUp, FadeIn } from "../components/Animations"
 
 export const Home = () => {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[75vh] min-h-[500px] flex items-stretch overflow-hidden bg-white">
+      <section className="relative flex h-[75vh] min-h-[500px] items-stretch overflow-hidden bg-white">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2000"
-            alt="Logistics Background"
-            className="w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=80&w=2000"
+            alt="Premium caps and hats manufacturing"
+            className="h-full w-full object-cover"
             referrerPolicy="no-referrer"
           />
         </div>
 
-        <div className="relative z-10 w-full flex flex-col md:flex-row items-end">
-          <div className="w-full md:w-[55%] bg-primary-blue p-10 md:p-14 text-white flex flex-col justify-center min-h-[250px]">
+        <div className="relative z-10 flex w-full flex-col items-end md:flex-row">
+          <div className="bg-primary-blue flex min-h-[250px] w-full flex-col justify-center p-10 text-white md:w-[55%] md:p-14">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-3xl md:text-5xl font-bold mb-5 leading-tight tracking-tight">
-                Customs Clearance
+              <h1 className="mb-5 text-3xl leading-tight font-bold tracking-tight md:text-5xl">
+                Premium Caps & Hats
+                <br />
+                Manufactured & Exported
               </h1>
-              <p className="text-base md:text-lg font-medium max-w-md leading-relaxed opacity-90">
-                Providing premium quality in record time.
+              <p className="max-w-md text-base leading-relaxed font-medium opacity-90 md:text-lg">
+                ISO 9000 certified manufacturer since 2004. Bulk orders,
+                custom designs, and reliable global shipping from China.
               </p>
             </motion.div>
           </div>
           <Link
-            to="/products"
-            className="w-full md:w-[35%] bg-primary-red p-10 md:p-14 text-white flex items-center justify-between group cursor-pointer rounded-l-full md:rounded-l-none md:rounded-r-full shadow-2xl"
+            to="/contact"
+            className="bg-primary-red group flex w-full cursor-pointer items-center justify-between rounded-l-full p-10 text-white shadow-2xl md:w-[35%] md:rounded-l-none md:rounded-r-full md:p-14"
           >
-            <span className="text-xs font-bold uppercase tracking-[0.2em]">
-              Discover catalog
+            <span className="text-xs font-bold tracking-[0.2em] uppercase">
+              Request a Quote
             </span>
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary-red group-hover:scale-110 transition-transform shadow-lg">
+            <div className="text-primary-red flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg transition-transform group-hover:scale-110">
               <ArrowRight size={20} />
             </div>
           </Link>
@@ -56,23 +55,23 @@ export const Home = () => {
       </section>
 
       {/* Key Figures Section */}
-      <section className="py-24 bg-white text-slate-900 overflow-hidden border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-20">
+      <section className="overflow-hidden border-b border-slate-100 bg-white py-24 text-slate-900">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid grid-cols-1 gap-x-12 gap-y-20 md:grid-cols-3">
             {[
               {
-                label: "Declarations processed yearly",
-                value: 4,
-                suffix: "M+",
+                label: "Years of manufacturing experience",
+                value: 20,
+                suffix: "+",
               },
-              { label: "Declaration lines yearly", value: 20, suffix: "M+" },
-              { label: "Customs experts", value: 1700, suffix: "+" },
-              { label: "Clients", value: 60000, suffix: "+" },
-              { label: "European countries", value: 15, suffix: "" },
-              { label: "Connected customs network", value: 1, suffix: "" },
+              { label: "Units produced annually", value: 5, suffix: "M+" },
+              { label: "Countries exported to", value: 30, suffix: "+" },
+              { label: "Satisfied B2B clients", value: 500, suffix: "+" },
+              { label: "Product styles available", value: 200, suffix: "+" },
+              { label: "On-time delivery rate", value: 98, suffix: "%" },
             ].map((fig, i) => (
               <div key={i} className="relative">
-                <div className="h-1.5 bg-slate-100 w-full mb-8 relative overflow-hidden">
+                <div className="relative mb-8 h-1.5 w-full overflow-hidden bg-slate-100">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: "100%" }}
@@ -82,15 +81,15 @@ export const Home = () => {
                       delay: i * 0.1,
                       ease: "easeOut",
                     }}
-                    className="absolute top-0 left-0 h-full bg-primary-blue"
+                    className="bg-primary-blue absolute top-0 left-0 h-full"
                   />
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-5xl font-bold tracking-tight text-primary-blue">
+                  <span className="text-primary-blue text-5xl font-bold tracking-tight">
                     <CountUp to={fig.value} duration={2.5} />
                     {fig.suffix}
                   </span>
-                  <span className="text-sm font-medium text-slate-500 max-w-[150px] leading-tight">
+                  <span className="max-w-[150px] text-sm leading-tight font-medium text-slate-500">
                     {fig.label}
                   </span>
                 </div>
@@ -101,42 +100,42 @@ export const Home = () => {
       </section>
 
       {/* About Snippet */}
-      <section className="py-24 bg-light-grey relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="bg-light-grey relative overflow-hidden py-24">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl">
             <FadeIn>
-              <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-12 leading-tight tracking-tight">
-                Your All-in-One Solution for <br />
-                <span className="text-primary-blue">Customs Clearance</span>
+              <h2 className="mb-12 text-4xl leading-tight font-bold tracking-tight text-slate-900 md:text-6xl">
+                Your Trusted Partner for <br />
+                <span className="text-primary-blue">Quality Headwear</span>
               </h2>
             </FadeIn>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3">
             <FadeIn delay={0.1}>
-              <div className="bg-primary-blue p-12 text-white h-full flex flex-col group cursor-pointer hover:bg-primary-red transition-colors">
+              <div className="bg-primary-blue group hover:bg-primary-red flex h-full cursor-pointer flex-col p-12 text-white transition-colors">
                 <CheckCircle2 size={28} className="mb-6 opacity-60" />
-                <h3 className="text-2xl font-bold mb-3">Import Clearance</h3>
-                <p className="opacity-80 text-base">
-                  Streamlined procedures for all your incoming goods.
+                <h3 className="mb-3 text-2xl font-bold">Custom Manufacturing</h3>
+                <p className="text-base opacity-80">
+                  OEM and ODM production with your branding, materials, and specifications.
                 </p>
               </div>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <div className="bg-secondary-blue p-12 text-white h-full flex flex-col group cursor-pointer hover:bg-primary-red transition-colors">
+              <div className="bg-secondary-blue group hover:bg-primary-red flex h-full cursor-pointer flex-col p-12 text-white transition-colors">
                 <TrendingUp size={28} className="mb-6 opacity-60" />
-                <h3 className="text-2xl font-bold mb-3">Export Clearance</h3>
-                <p className="opacity-80 text-base">
-                  Efficient processing for global distribution.
+                <h3 className="mb-3 text-2xl font-bold">Bulk Export</h3>
+                <p className="text-base opacity-80">
+                  Competitive pricing at scale with reliable shipping to 30+ countries.
                 </p>
               </div>
             </FadeIn>
             <FadeIn delay={0.3}>
-              <div className="bg-primary-red p-12 text-white h-full flex flex-col group cursor-pointer hover:bg-secondary-red transition-colors">
+              <div className="bg-primary-red group hover:bg-secondary-red flex h-full cursor-pointer flex-col p-12 text-white transition-colors">
                 <Globe size={28} className="mb-6 opacity-60" />
-                <h3 className="text-2xl font-bold mb-3">Transit Clearance</h3>
-                <p className="opacity-80 text-base">
-                  Seamless movement through international borders.
+                <h3 className="mb-3 text-2xl font-bold">Quality Assurance</h3>
+                <p className="text-base opacity-80">
+                  ISO 9000 certified processes with rigorous inspection at every stage.
                 </p>
               </div>
             </FadeIn>
@@ -145,46 +144,67 @@ export const Home = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+      <section className="bg-white py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-20 flex flex-col items-end justify-between gap-8 md:flex-row">
             <div>
-              <span className="text-primary-blue font-bold uppercase tracking-widest text-sm mb-4 block">
+              <span className="text-primary-blue mb-4 block text-sm font-bold tracking-widest uppercase">
                 Our Collection
               </span>
-              <h2 className="text-5xl font-bold text-slate-900 tracking-tight">
+              <h2 className="text-5xl font-bold tracking-tight text-slate-900">
                 Signature Caps
               </h2>
             </div>
             <Link
               to="/products"
-              className="px-10 py-4 glass-button-dark font-bold hover:border-primary-blue hover:text-primary-blue transition-all rounded-full shadow-sm hover:shadow-md"
+              className="glass-button-dark hover:border-primary-blue hover:text-primary-blue rounded-full px-10 py-4 font-bold shadow-sm transition-all hover:shadow-md"
             >
               View All Products
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {[1, 2, 3, 4].map((i) => (
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                img: "https://images.unsplash.com/photo-1588850561407-ed78c334e67a?auto=format&fit=crop&q=80&w=800",
+                name: "Classic Baseball Cap",
+                spec: "Embroidered Logo • 100% Cotton",
+              },
+              {
+                img: "https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&q=80&w=800",
+                name: "Structured Snapback",
+                spec: "Flat Brim • Adjustable Closure",
+              },
+              {
+                img: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=80&w=800",
+                name: "Knit Beanie",
+                spec: "Acrylic Blend • Winter Collection",
+              },
+              {
+                img: "https://images.unsplash.com/photo-1575428652377-a2d80e2277fc?auto=format&fit=crop&q=80&w=800",
+                name: "Trucker Cap",
+                spec: "Mesh Back • Breathable Design",
+              },
+            ].map((product, i) => (
               <div key={i}>
-                <FadeIn delay={i * 0.1}>
+                <FadeIn delay={(i + 1) * 0.1}>
                   <div className="group cursor-pointer">
-                    <div className="aspect-square bg-slate-50 overflow-hidden mb-8 relative group-hover:shadow-2xl transition-all duration-500">
+                    <div className="relative mb-8 aspect-square overflow-hidden bg-slate-50 transition-all duration-500 group-hover:shadow-2xl">
                       <img
-                        src={`https://picsum.photos/seed/cap${i}/800/800`}
-                        alt={`Product ${i}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        src={product.img}
+                        alt={product.name}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
-                      <div className="absolute top-0 right-0 bg-primary-blue text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+                      <div className="bg-primary-blue absolute top-0 right-0 px-4 py-2 text-[10px] font-bold tracking-widest text-white uppercase">
                         New Arrival
                       </div>
                     </div>
-                    <h3 className="font-bold text-xl text-slate-900 mb-2 group-hover:text-primary-blue transition-colors">
-                      Premium Baseball Cap v{i}
+                    <h3 className="group-hover:text-primary-blue mb-2 text-xl font-bold text-slate-900 transition-colors">
+                      {product.name}
                     </h3>
-                    <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">
-                      High-end Embroidery • 100% Cotton
+                    <p className="text-sm font-medium tracking-wider text-slate-500 uppercase">
+                      {product.spec}
                     </p>
                   </div>
                 </FadeIn>
@@ -195,35 +215,38 @@ export const Home = () => {
       </section>
 
       {/* News/Newsletter Section */}
-      <section className="py-24 bg-white text-slate-900 overflow-hidden relative border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      <section className="relative overflow-hidden border-t border-slate-100 bg-white py-24 text-slate-900">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid grid-cols-1 items-center gap-20 lg:grid-cols-2">
             <div>
-              <span className="text-primary-blue font-bold uppercase tracking-widest text-xs mb-6 block">
+              <span className="text-primary-blue mb-6 block text-xs font-bold tracking-widest uppercase">
                 Stay Updated
               </span>
-              <h2 className="text-4xl md:text-6xl font-bold mb-10 tracking-tight">
+              <h2 className="mb-10 text-4xl font-bold tracking-tight md:text-6xl">
                 Latest Updates
               </h2>
               <div className="space-y-10">
-                {[1, 2].map((i) => (
-                  <div key={i} className="flex gap-6 group cursor-pointer">
-                    <div className="w-28 h-28 overflow-hidden shrink-0">
+                {[
+                  { img: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=400" },
+                  { img: "https://images.unsplash.com/photo-1494412574643-ff11b0a5eb19?auto=format&fit=crop&q=80&w=400" },
+                ].map((news, i) => (
+                  <div key={i} className="group flex cursor-pointer gap-6">
+                    <div className="h-28 w-28 shrink-0 overflow-hidden">
                       <img
-                        src={`https://picsum.photos/seed/news${i}/400/400`}
+                        src={news.img}
                         alt="News"
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                         referrerPolicy="no-referrer"
                       />
                     </div>
                     <div className="flex flex-col justify-center">
-                      <span className="text-primary-blue text-[10px] font-bold uppercase tracking-widest mb-2 block">
+                      <span className="text-primary-blue mb-2 block text-[10px] font-bold tracking-widest uppercase">
                         Industry News • March {new Date().getFullYear()}
                       </span>
-                      <h4 className="font-bold text-xl group-hover:text-primary-blue transition-colors leading-tight">
+                      <h4 className="group-hover:text-primary-blue text-xl leading-tight font-bold transition-colors">
                         Hebei Prolink Expands to New European Markets
                       </h4>
-                      <p className="text-slate-500 text-xs mt-2 line-clamp-1">
+                      <p className="mt-2 line-clamp-1 text-xs text-slate-500">
                         Our latest expansion brings high-quality headwear to the
                         Nordic region...
                       </p>
@@ -233,29 +256,29 @@ export const Home = () => {
               </div>
               <Link
                 to="/news"
-                className="mt-12 inline-flex items-center gap-2 text-slate-900 font-bold hover:text-primary-blue transition-colors text-base"
+                className="hover:text-primary-blue mt-12 inline-flex items-center gap-2 text-base font-bold text-slate-900 transition-colors"
               >
                 View All News <ArrowRight size={20} />
               </Link>
             </div>
 
-            <div className="bg-light-grey p-12 border border-slate-100 flex flex-col justify-center">
+            <div className="bg-light-grey flex flex-col justify-center border border-slate-100 p-12">
               <TrendingUp size={48} className="text-primary-blue mb-6" />
-              <h3 className="text-3xl font-bold mb-4 tracking-tight">
+              <h3 className="mb-4 text-3xl font-bold tracking-tight">
                 Contact us directly
               </h3>
-              <p className="text-slate-500 text-base mb-8 leading-relaxed">
+              <p className="mb-8 text-base leading-relaxed text-slate-500">
                 Have specific requirements or need a tailored solution? Reach
                 out to our team of experts for immediate assistance.
               </p>
               <Link
                 to="/contact"
-                className="glass-button-primary text-white px-10 py-5 font-bold hover:bg-slate-900 transition-all text-lg flex items-center justify-center gap-3 group rounded-full"
+                className="glass-button-primary group flex items-center justify-center gap-3 rounded-full px-10 py-5 text-lg font-bold text-white transition-all hover:bg-slate-900"
               >
                 Get in Touch
                 <ArrowRight
                   size={20}
-                  className="group-hover:translate-x-2 transition-transform"
+                  className="transition-transform group-hover:translate-x-2"
                 />
               </Link>
             </div>
