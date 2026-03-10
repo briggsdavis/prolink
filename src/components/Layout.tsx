@@ -35,7 +35,7 @@ export const Header = ({ currentPage, setPage }: { currentPage: Page, setPage: (
           onClick={() => setPage('home')}
         >
           <img
-            src="/newlogo.png"
+            src="/newpro.png"
             alt="Prolink Logo"
             className="h-12 w-auto group-hover:scale-105 transition-transform"
           />
