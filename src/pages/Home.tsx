@@ -15,7 +15,7 @@ export const Home = () => {
       <section className="relative flex h-[75vh] min-h-[500px] items-stretch overflow-hidden bg-white">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=80&w=2000"
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2000"
             alt="Premium caps and hats manufacturing"
             className="h-full w-full object-cover"
             referrerPolicy="no-referrer"
@@ -166,7 +166,7 @@ export const Home = () => {
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
-                img: "https://images.unsplash.com/photo-1588850561407-ed78c334e67a?auto=format&fit=crop&q=80&w=800",
+                img: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&q=80&w=800",
                 name: "Classic Baseball Cap",
                 spec: "Embroidered Logo • 100% Cotton",
               },
