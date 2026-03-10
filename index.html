@@ -1,13 +1,84 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script type="module">
+      if (import.meta.env.DEV) {
+        import("react-grab")
+        import("@react-grab/mcp/client")
+      }
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>
+      Hebei Prolink Trading | Premium Caps, Hats & Export Goods from China
+    </title>
+    <meta
+      name="description"
+      content="Hebei Prolink Import and Export Trading Co., Ltd. — ISO-certified manufacturer and exporter of premium caps, hats, winter wear, kitchenware, bags and rainwear since 2004. Based in Shijiazhuang, Hebei Province, China."
+    />
+    <meta
+      name="keywords"
+      content="Hebei Prolink, caps manufacturer, hats exporter, China trading company, custom caps, wholesale headwear, import export, Shijiazhuang, premium caps, baseball caps, winter wear, kitchenware, bags, rainwear"
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.prolink-trading.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hebei Prolink Trading" />
+    <meta
+      property="og:title"
+      content="Hebei Prolink Trading | Premium Caps, Hats & Export Goods from China"
+    />
+    <meta
+      property="og:description"
+      content="ISO-certified manufacturer and exporter of premium caps, hats, winter wear, kitchenware, bags and rainwear since 2004. Based in Shijiazhuang, Hebei, China."
+    />
+    <meta property="og:url" content="https://www.prolink-trading.com/" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Hebei Prolink Trading | Premium Caps, Hats & Export Goods"
+    />
+    <meta
+      name="twitter:description"
+      content="ISO-certified manufacturer and exporter of premium caps, hats, winter wear and more since 2004."
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Hebei Prolink Import and Export Trading Co., Ltd.",
+        "alternateName": "Hebei Prolink Trading",
+        "url": "https://www.prolink-trading.com",
+        "description": "ISO-certified manufacturer and exporter of premium caps, hats, winter wear, kitchenware, bags and rainwear since 2004.",
+        "foundingDate": "2004",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "No. 123 Trade Avenue",
+          "addressLocality": "Shijiazhuang",
+          "addressRegion": "Hebei Province",
+          "addressCountry": "CN"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+86-123-4567-890",
+          "contactType": "sales",
+          "email": "info@prolink-trading.com",
+          "availableLanguage": ["English", "Chinese"]
+        },
+        "sameAs": []
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
